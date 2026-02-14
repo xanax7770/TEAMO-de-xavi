@@ -137,6 +137,7 @@ button {
   transition: transform 1s ease, box-shadow 0.5s ease;
   z-index: 1000; /* siempre visible */
   animation: roseFloat 4s ease-in-out infinite alternate;
+  transform-style: preserve-3d;
 }
 
 .rose.flower {
@@ -147,6 +148,26 @@ button {
 @keyframes roseFloat {
   from { transform: translateY(0px); }
   to   { transform: translateY(15px); }
+}
+
+/* Texto extra de amor gigante */
+.message-extra {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #ffb3c6;
+  width: 80%;
+  text-align: center;
+  line-height: 1.4em;
+  text-shadow: 0 0 5px #ff4da6;
+  animation: glowExtra 3s infinite alternate;
+}
+
+@keyframes glowExtra {
+  from { text-shadow: 0 0 5px #ff4da6; }
+  to { text-shadow: 0 0 15px #ff99c8; }
 }
 </style>
 </head>
@@ -166,10 +187,15 @@ button {
   <div class="message">Nicole 💖<br>Te Amo ✨</div>
   <div class="message-sub">Eres el amor de mi vida y te amo con todo mi corazón 💕</div>
 
+  <!-- Texto extra de amor gigante -->
+  <div class="message-extra">
+Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabesh cuanto te amo y te quelo mi bebe emosha eresh lo mas importante en mi vida nunca lo olvides otei?❤️❤️ te amo con todo mi corazón mi niña emosha pishosha tal vez esto ño sea mucho pidon 🥺 gachas por todo bebe y pidon por tan poco que tengo para darte esto al lado de otra cosa es una mrd veda pero puesh pidoname bebe solo queria que supieras que siempre te voy a amar con toda mi alma❤️❤️❤️
+  </div>
+
   <!-- Rosas flotantes que florecen -->
-  <div class="rose" style="top:70%; left:30%;"></div>
-  <div class="rose" style="top:75%; left:50%;"></div>
-  <div class="rose" style="top:65%; left:65%;"></div>
+  <div class="rose" style="top:70%; left:30%; transform: translateZ(0);"></div>
+  <div class="rose" style="top:75%; left:50%; transform: translateZ(0);"></div>
+  <div class="rose" style="top:65%; left:65%; transform: translateZ(0);"></div>
 
   <audio id="music" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
