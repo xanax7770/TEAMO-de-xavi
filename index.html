@@ -46,30 +46,24 @@ button {
   transform-style: preserve-3d;
 }
 
-/* Estrellas */
+/* Estrellas fijas */
 .star {
   position: absolute;
   width: 2px;
   height: 2px;
   background: white;
   border-radius: 50%;
-  animation: twinkle 3s infinite alternate;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.3; }
-  to { opacity: 1; }
-}
-
-/* Estrellas fugaces / lluvia */
+/* Lluvia de estrellas */
 .shooting {
   position: absolute;
   width: 2px;
-  height: 10px;
+  height: 8px;
   background: white;
-  opacity: 0.8;
   border-radius: 50%;
-  animation: fall 1s linear forwards;
+  opacity: 0.8;
+  animation: fall 1.5s linear forwards;
 }
 
 @keyframes fall {
@@ -104,13 +98,12 @@ button {
   from { text-shadow: 0 0 10px #ff4da6; }
   to { text-shadow: 0 0 40px #ff0066; }
 }
-
 @keyframes glowSub {
   from { text-shadow: 0 0 5px #ff4da6; }
   to { text-shadow: 0 0 20px #ff99c8; }
 }
 
-/* Luna de fondo con brillo y flotación */
+/* Luna brillante de fondo */
 .moon {
   position: absolute;
   top: 10%;
@@ -128,30 +121,36 @@ button {
   from { box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa; }
   to   { box-shadow: 0 0 70px #ffffff, 0 0 140px #ffddff; }
 }
-
 @keyframes moonFloat {
   from { transform: translateY(0px); }
   to   { transform: translateY(20px); }
 }
 
-/* Texto extra de amor gigante */
-.message-extra {
+/* Mensajes girando alrededor */
+.orbit-ring {
   position: absolute;
-  top: 80%;
+  width: 400px;
+  height: 400px;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 20px;
-  color: #ffb3c6;
-  width: 80%;
-  text-align: center;
-  line-height: 1.4em;
-  text-shadow: 0 0 5px #ff4da6;
-  animation: glowExtra 3s infinite alternate;
+  transform-style: preserve-3d;
+  animation: spin 20s linear infinite;
 }
 
-@keyframes glowExtra {
-  from { text-shadow: 0 0 5px #ff4da6; }
-  to { text-shadow: 0 0 15px #ff99c8; }
+.orbit-ring span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotateY(calc(var(--i) * 45deg)) translateZ(200px);
+  font-size: 20px;
+  color: white;
+  text-shadow: 0 0 10px white, 0 0 20px #ff4da6;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotateY(0deg); }
+  to { transform: translate(-50%, -50%) rotateY(360deg); }
 }
 </style>
 </head>
@@ -165,21 +164,28 @@ button {
 </div>
 
 <div id="universe">
-  <!-- Luna brillante de fondo -->
+  <!-- Luna brillante -->
   <div class="moon"></div>
 
-  <!-- Mensaje central con emojis -->
-  <div class="message">Nicole 💖✨💫<br>Te Amo 😘💌</div>
+  <!-- Mensaje central -->
+  <div class="message">Nicole 💖<br>Te Amo ✨</div>
   <div class="message-sub">Eres el amor de mi vida y te amo con todo mi corazón 💕🌙💖</div>
 
-  <!-- Texto extra de amor gigante con emojis -->
-  <div class="message-extra">
-Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabesh cuanto te amo y te quelo mi bebe emosha eresh lo mas importante en mi vida nunca lo olvides otei?❤️💖😍 te amo con todo mi corazón mi niña emosha pishosha tal vez esto ño sea mucho pidon 🥺 gachas por todo bebe y pidon por tan poco que tengo para darte esto al lado de otra cosa es una mrd veda pero puesh pidoname bebe 😘💝 solo queria que supieras que siempre te voy a amar con toda mi alma❤️💖💫💞
+  <!-- Mensajes girando -->
+  <div class="orbit-ring">
+    <span style="--i:0">Mi universo ✨</span>
+    <span style="--i:1">Mi lugar seguro 🌙</span>
+    <span style="--i:2">Mi felicidad 💕</span>
+    <span style="--i:3">Mi estrella favorita 🌟</span>
+    <span style="--i:4">Mi todo 💖</span>
+    <span style="--i:5">Mi destino ✨</span>
+    <span style="--i:6">Mi razón 🌌</span>
+    <span style="--i:7">Mi siempre 💞</span>
   </div>
 
-  <!-- Audio con enlace directo de Google Drive -->
+  <!-- Música -->
   <audio id="music" loop>
-    <source src="audio/1.mp3"type="audio/mpeg">
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
   </audio>
 </div>
 
@@ -190,7 +196,7 @@ function check() {
     document.getElementById("login").style.display = "none";
     document.getElementById("universe").style.display = "block";
     crearUniverso();
-    playAudioOnInteraction();
+    document.getElementById("music").play();
   } else {
     document.getElementById("error").innerText = "Clave incorrecta 💔";
   }
@@ -218,20 +224,6 @@ function crearUniverso() {
     universe.appendChild(shooting);
     setTimeout(() => shooting.remove(), 1500);
   }, 200);
-}
-
-// Reproducir música con primer toque/clic
-function playAudioOnInteraction() {
-  const audio = document.getElementById("music");
-  
-  function playMusic() {
-    audio.play().catch(e => console.log("Autoplay bloqueado, espera interacción."));
-    document.removeEventListener('click', playMusic);
-    document.removeEventListener('touchstart', playMusic);
-  }
-
-  document.addEventListener('click', playMusic);
-  document.addEventListener('touchstart', playMusic);
 }
 </script>
 
