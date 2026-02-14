@@ -46,6 +46,7 @@ button {
   transform-style: preserve-3d;
 }
 
+/* Estrellas */
 .star {
   position: absolute;
   width: 2px;
@@ -54,6 +55,7 @@ button {
   border-radius: 50%;
 }
 
+/* Estrellas fugaces */
 .shooting {
   position: absolute;
   width: 3px;
@@ -68,6 +70,7 @@ button {
   to { transform: translate(300px,300px); opacity: 0; }
 }
 
+/* Mensaje central */
 .message {
   position: absolute;
   top: 40%;
@@ -83,6 +86,25 @@ button {
   from { text-shadow: 0 0 10px #ff4da6; }
   to { text-shadow: 0 0 40px #ff0066; }
 }
+
+/* Luna de fondo con brillo pulsante */
+.moon {
+  position: absolute;
+  top: 10%;
+  left: 70%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #aaaaaa 70%, #555555);
+  box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa;
+  animation: moonGlow 2s infinite alternate;
+  z-index: 1;
+}
+
+@keyframes moonGlow {
+  from { box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa; }
+  to   { box-shadow: 0 0 70px #ffffff, 0 0 140px #ffddff; }
+}
 </style>
 </head>
 <body>
@@ -95,6 +117,9 @@ button {
 </div>
 
 <div id="universe">
+  <!-- Luna brillante de fondo -->
+  <div class="moon"></div>
+
   <div class="message">Nicole 💖<br>Te Amo ✨</div>
   <audio id="music" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
@@ -132,7 +157,6 @@ function crearUniverso() {
     shooting.style.top = Math.random() * 50 + "vh";
     shooting.style.left = Math.random() * 50 + "vw";
     document.body.appendChild(shooting);
-
     setTimeout(() => shooting.remove(), 1000);
   }, 3000);
 }
