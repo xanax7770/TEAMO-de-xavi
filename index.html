@@ -50,9 +50,9 @@ button {
 #topImage {
   position: absolute;
   top: 10px;
-  left: 50px;
-  width: 180px;
-  height: 180px;
+  left: 70px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   z-index: 200;
   border-radius: 50%;
@@ -183,7 +183,7 @@ button {
   to   { transform: translateY(20px); }
 }
 
-/* Mensajes girando alrededor */
+/* Mensajes girando alrededor (centrales) */
 .orbit-ring {
   position: absolute;
   width: 400px;
@@ -203,6 +203,28 @@ button {
   font-size: 40px;
   color: white;
   text-shadow: 0 0 10px white, 0 0 20px #ff4da6;
+}
+
+/* Nueva órbita inferior (mensajes mágicos) */
+.orbit-bottom {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  bottom: 100px; 
+  left: 50%;
+  transform: translateX(-50%);
+  transform-style: preserve-3d;
+  animation: spin 15s linear infinite;
+}
+
+.orbit-bottom span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(150px);
+  font-size: 25px;
+  color: #ff99c8;
+  text-shadow: 0 0 5px white, 0 0 10px #ff4da6;
 }
 
 @keyframes spin {
@@ -277,6 +299,14 @@ Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabes
 
   <div class="heart">❤️</div>
 
+  <!-- Mensajes giratorios mágicos arriba del texto inferior -->
+  <div class="orbit-bottom">
+    <span style="--i:0">mi bebe enojona 😘</span>
+    <span style="--i:1">mi bebe berrinchuda 💖</span>
+    <span style="--i:2">changuita emosha 🐵</span>
+    <span style="--i:3">ratona con cola 🐭</span>
+  </div>
+
   <div class="message-bottom">GACHASH POR TODO MI BEBE EMOSHA 💖✨</div>
 
   <audio id="music" loop>
@@ -306,8 +336,8 @@ function crearUniverso() {
     star.className = "star";
     star.style.top = Math.random() * 100 + "vh";
     star.style.left = Math.random() * 100 + "vw";
-    star.style.animationDuration = (1 + Math.random() * 2) + "s"; // duración aleatoria
-    star.style.animationDelay = Math.random() * 2 + "s"; // retraso aleatorio
+    star.style.animationDuration = (1 + Math.random() * 2) + "s"; 
+    star.style.animationDelay = Math.random() * 2 + "s"; 
     universe.appendChild(star);
   }
 
@@ -330,6 +360,26 @@ function crearUniverso() {
     universe.appendChild(star);
     setTimeout(() => star.remove(), 1000);
   }, 3000);
+
+  // Mensajes giratorios mágicos: parpadeo, color y tamaño aleatorio
+  document.querySelectorAll('.orbit-bottom span').forEach(msg => {
+    let duration = 1 + Math.random() * 2;
+    let delay = Math.random() * 2;
+    msg.style.animation = `glowMsg ${duration}s infinite alternate`;
+    msg.style.animationDelay = `${delay}s`;
+    let fontSize = 20 + Math.random() * 10;
+    msg.style.fontSize = `${fontSize}px`;
+    const colors = ['#ff99c8', '#ff4da6', '#ff66cc', '#ffb3c6'];
+    msg.style.color = colors[Math.floor(Math.random() * colors.length)];
+  });
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+  @keyframes glowMsg {
+    from { text-shadow: 0 0 5px white, 0 0 10px #ff4da6; }
+    to { text-shadow: 0 0 15px #ffffff, 0 0 25px #ff4da6; }
+  }`;
+  document.head.appendChild(style);
 }
 </script>
 
