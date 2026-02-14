@@ -82,12 +82,22 @@ button {
   animation: glow 2s infinite alternate;
 }
 
+.message-sub {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: #ff99c8;
+  text-shadow: 0 0 10px #ff4da6;
+}
+
 @keyframes glow {
   from { text-shadow: 0 0 10px #ff4da6; }
   to { text-shadow: 0 0 40px #ff0066; }
 }
 
-/* Luna de fondo con brillo pulsante */
+/* Luna de fondo con brillo y flotación */
 .moon {
   position: absolute;
   top: 10%;
@@ -97,13 +107,18 @@ button {
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #ffffff, #aaaaaa 70%, #555555);
   box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa;
-  animation: moonGlow 2s infinite alternate;
+  animation: moonGlow 2s infinite alternate, moonFloat 6s ease-in-out infinite alternate;
   z-index: 1;
 }
 
 @keyframes moonGlow {
   from { box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa; }
   to   { box-shadow: 0 0 70px #ffffff, 0 0 140px #ffddff; }
+}
+
+@keyframes moonFloat {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(20px); }
 }
 </style>
 </head>
@@ -121,6 +136,8 @@ button {
   <div class="moon"></div>
 
   <div class="message">Nicole 💖<br>Te Amo ✨</div>
+  <div class="message-sub">Eres el amor de mi vida y te amo con todo mi corazón 💕</div>
+
   <audio id="music" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
   </audio>
