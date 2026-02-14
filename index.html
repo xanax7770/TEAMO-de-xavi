@@ -46,7 +46,6 @@ button {
   transform-style: preserve-3d;
 }
 
-/* Estrellas */
 .star {
   position: absolute;
   width: 2px;
@@ -55,7 +54,6 @@ button {
   border-radius: 50%;
 }
 
-/* Estrellas fugaces */
 .shooting {
   position: absolute;
   width: 3px;
@@ -70,7 +68,6 @@ button {
   to { transform: translate(300px,300px); opacity: 0; }
 }
 
-/* Mensaje central */
 .message {
   position: absolute;
   top: 40%;
@@ -82,124 +79,9 @@ button {
   animation: glow 2s infinite alternate;
 }
 
-.message-sub {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
-  color: #ff99c8;
-  text-shadow: 0 0 10px #ff4da6;
-  animation: glowSub 2s infinite alternate;
-}
-
 @keyframes glow {
   from { text-shadow: 0 0 10px #ff4da6; }
   to { text-shadow: 0 0 40px #ff0066; }
-}
-
-@keyframes glowSub {
-  from { text-shadow: 0 0 5px #ff4da6; }
-  to { text-shadow: 0 0 20px #ff99c8; }
-}
-
-/* Luna de fondo con brillo y flotación */
-.moon {
-  position: absolute;
-  top: 10%;
-  left: 70%;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #aaaaaa 70%, #555555);
-  box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa;
-  animation: moonGlow 2s infinite alternate, moonFloat 6s ease-in-out infinite alternate;
-  z-index: 1;
-}
-
-@keyframes moonGlow {
-  from { box-shadow: 0 0 50px #ffffff, 0 0 100px #aaaaaa; }
-  to   { box-shadow: 0 0 70px #ffffff, 0 0 140px #ffddff; }
-}
-
-@keyframes moonFloat {
-  from { transform: translateY(0px); }
-  to   { transform: translateY(20px); }
-}
-
-/* Rosas que florecen y flotan */
-.rose {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Red_Rose.svg/1024px-Red_Rose.svg.png') no-repeat center/contain;
-  cursor: pointer;
-  transition: transform 1s ease, box-shadow 0.5s ease;
-  z-index: 1000; /* siempre visible */
-  animation: roseFloat 4s ease-in-out infinite alternate;
-  transform-style: preserve-3d;
-}
-
-.rose.flower {
-  transform: scale(2); 
-  box-shadow: 0 0 20px #ff4da6;
-}
-
-@keyframes roseFloat {
-  from { transform: translateY(0px); }
-  to   { transform: translateY(15px); }
-}
-
-/* Texto extra de amor gigante */
-.message-extra {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  color: #ffb3c6;
-  width: 80%;
-  text-align: center;
-  line-height: 1.4em;
-  text-shadow: 0 0 5px #ff4da6;
-  animation: glowExtra 3s infinite alternate;
-}
-
-@keyframes glowExtra {
-  from { text-shadow: 0 0 5px #ff4da6; }
-  to { text-shadow: 0 0 15px #ff99c8; }
-}
-
-/* Movimiento circular suave de los mensajes */
-@keyframes orbitMessage {
-  0%   { transform: translate(-50%, -50%) rotate(0deg) translateX(5px) rotate(0deg); }
-  50%  { transform: translate(-50%, -50%) rotate(180deg) translateX(5px) rotate(-180deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg) translateX(5px) rotate(-360deg); }
-}
-
-.message {
-  animation: glow 2s infinite alternate, orbitMessage 10s linear infinite;
-}
-
-.message-sub {
-  animation: glowSub 2s infinite alternate, orbitMessage 12s linear infinite reverse;
-}
-
-/* Botón de música */
-#playMusic {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  background: #ff4da6;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 1000;
-  display: none;
 }
 </style>
 </head>
@@ -213,30 +95,10 @@ button {
 </div>
 
 <div id="universe">
-  <!-- Luna brillante de fondo -->
-  <div class="moon"></div>
-
-  <!-- Mensaje central con emojis -->
-  <div class="message">Nicole 💖✨💫<br>Te Amo 😘💌</div>
-  <div class="message-sub">Eres el amor de mi vida y te amo con todo mi corazón 💕🌙💖</div>
-
-  <!-- Texto extra de amor gigante con emojis -->
-  <div class="message-extra">
-Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabesh cuanto te amo y te quelo mi bebe emosha eresh lo mas importante en mi vida nunca lo olvides otei?❤️💖😍 te amo con todo mi corazón mi niña emosha pishosha tal vez esto ño sea mucho pidon 🥺 gachas por todo bebe y pidon por tan poco que tengo para darte esto al lado de otra cosa es una mrd veda pero puesh pidoname bebe 😘💝 solo queria que supieras que siempre te voy a amar con toda mi alma❤️💖💫💞
-  </div>
-
-  <!-- Rosas flotantes que florecen -->
-  <div class="rose" style="top:70%; left:30%; transform: translateZ(0);"></div>
-  <div class="rose" style="top:75%; left:50%; transform: translateZ(0);"></div>
-  <div class="rose" style="top:65%; left:65%; transform: translateZ(0);"></div>
-
-  <!-- Música -->
+  <div class="message">Nicole 💖<br>Te Amo ✨</div>
   <audio id="music" loop>
-    <source src="did_i_tell_u_that_i_miss_u.mp3" type="audio/mp3">
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
   </audio>
-
-  <!-- Botón para reproducir música -->
-  <button id="playMusic">🎵 Reproducir música</button>
 </div>
 
 <script>
@@ -246,15 +108,7 @@ function check() {
     document.getElementById("login").style.display = "none";
     document.getElementById("universe").style.display = "block";
     crearUniverso();
-
-    // Mostrar botón de música
-    const playBtn = document.getElementById("playMusic");
-    playBtn.style.display = "block";
-    playBtn.addEventListener('click', () => {
-      document.getElementById("music").play();
-      playBtn.style.display = "none"; // ocultar el botón después de reproducir
-    });
-
+    document.getElementById("music").play();
   } else {
     document.getElementById("error").innerText = "Clave incorrecta 💔";
   }
@@ -278,20 +132,10 @@ function crearUniverso() {
     shooting.style.top = Math.random() * 50 + "vh";
     shooting.style.left = Math.random() * 50 + "vw";
     document.body.appendChild(shooting);
+
     setTimeout(() => shooting.remove(), 1000);
   }, 3000);
 }
-
-// Hacer que las rosas florezcan al tocar/clic
-document.querySelectorAll('.rose').forEach(rose => {
-  rose.addEventListener('click', () => {
-    rose.classList.toggle('flower');
-  });
-
-  rose.addEventListener('touchstart', () => {
-    rose.classList.toggle('flower');
-  });
-});
 </script>
 
 </body>
