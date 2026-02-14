@@ -7,17 +7,16 @@
 body {
   margin: 0;
   background: black;
-  color: white;
-  font-family: Arial, sans-serif;
   overflow: hidden;
+  font-family: Arial, sans-serif;
 }
 
 #universe {
-  display: none;
   width: 100%;
   height: 100%;
   perspective: 1200px;
   transform-style: preserve-3d;
+  position: relative;
 }
 
 .center-name {
@@ -30,11 +29,19 @@ body {
   text-shadow: 0 0 20px #ff0066, 0 0 40px #ff4da6;
   animation: pulse 2s infinite alternate;
   text-align: center;
+  z-index: 10;
 }
 
 @keyframes pulse {
   from { text-shadow: 0 0 20px #ff0066, 0 0 40px #ff4da6; }
-  to { text-shadow: 0 0 40px #ff0066, 0 0 80px #ff4da6; }
+  to   { text-shadow: 0 0 40px #ff0066, 0 0 80px #ff4da6; }
+}
+
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
 }
 
 .orbit-ring span {
@@ -62,141 +69,98 @@ body {
   from { opacity: 0.3; }
   to   { opacity: 1; }
 }
-
-.shooting {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: white;
-  box-shadow: 0 0 10px white;
-  animation: shoot 1s linear forwards;
-}
-
-@keyframes shoot {
-  from { transform: translate(0,0); opacity: 1; }
-  to { transform: translate(300px,300px); opacity: 0; }
-}
 </style>
 </head>
 <body>
 
-<div id="login" style="position:absolute; width:100%; top:40%; text-align:center;">
-  <h2>🔐 Solo alguien especial puede entrar</h2>
-  <input type="password" id="password" placeholder="Ingresa la clave" style="padding:10px; border-radius:20px; border:none; text-align:center; font-size:16px;">
-  <button onclick="check()" style="padding:10px 20px; border-radius:20px; border:none; background:#ff0066; color:white; cursor:pointer; margin-left:10px;">Entrar</button>
-  <p id="error" style="color:red;"></p>
-</div>
-
 <div id="universe">
   <div class="center-name">Nicole 💖</div>
+  <div class="orbit-ring" id="messages"></div>
 </div>
 
 <script>
-function check() {
-  let pass = document.getElementById("password").value.toLowerCase();
-  if(pass === "nicole") {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("universe").style.display = "block";
-    crearUniverso();
-    document.getElementById("music")?.play();
-  } else {
-    document.getElementById("error").innerText = "Clave incorrecta 💔";
-  }
+// Configuración
+const universe = document.getElementById("universe");
+
+// Mensajes alrededor del centro
+const mensajes = ["Te amo 💖", "Mi universo ✨", "Mi felicidad 💕", "Mi estrella 🌟", "Mi todo 💞"];
+const orbit = document.getElementById("messages");
+
+mensajes.forEach((msg, i) => {
+  const span = document.createElement("span");
+  span.innerText = msg;
+  span.style.setProperty("--i", i);
+  orbit.appendChild(span);
+});
+
+// Animación de órbita
+let orbitAngle = 0;
+function animateOrbit() {
+  orbitAngle += 0.01; // velocidad de rotación
+  orbit.style.transform = `translate(-50%, -50%) rotateY(${orbitAngle}rad)`;
+  requestAnimationFrame(animateOrbit);
+}
+animateOrbit();
+
+// Crear estrellas alrededor del centro
+let stars = [];
+for (let i = 0; i < 200; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+
+  const size = Math.random() * 2 + 1.5;
+  star.style.width = size + "px";
+  star.style.height = size + "px";
+
+  const angle = Math.random() * 2 * Math.PI;
+  const radius = Math.random() * 250 + 50; // distancia desde el centro
+  const height = (Math.random() - 0.5) * 100; // altura en Y
+  const speed = Math.random() * 0.02 + 0.002;
+
+  star.dataset.angle = angle;
+  star.dataset.radius = radius;
+  star.dataset.height = height;
+  star.dataset.speed = speed;
+
+  universe.appendChild(star);
+  stars.push(star);
 }
 
-function crearUniverso() {
-  const universe = document.getElementById("universe");
-  let stars = [];
-
-  // Crear estrellas
-  for (let i = 0; i < 200; i++) {
-    let star = document.createElement("div");
-    star.className = "star";
-
-    const size = Math.random() * 2 + 1.5;
-    star.style.width = size + "px";
-    star.style.height = size + "px";
-
-    const angle = Math.random() * 2 * Math.PI;
-    const radius = Math.random() * 150 + 50;
-    const height = (Math.random() - 0.5) * 80;
-    const speed = Math.random() * 0.02 + 0.002;
-
+// Animar estrellas
+function animateStars() {
+  stars.forEach(star => {
+    let angle = parseFloat(star.dataset.angle);
+    const radius = parseFloat(star.dataset.radius);
+    const height = parseFloat(star.dataset.height);
+    const speed = parseFloat(star.dataset.speed);
+    angle += speed;
     star.dataset.angle = angle;
-    star.dataset.radius = radius;
-    star.dataset.height = height;
-    star.dataset.speed = speed;
 
-    universe.appendChild(star);
-    stars.push(star);
-  }
-
-  // Animar estrellas
-  function animateStars() {
-    stars.forEach(star => {
-      let angle = parseFloat(star.dataset.angle);
-      const radius = parseFloat(star.dataset.radius);
-      const height = parseFloat(star.dataset.height);
-      const speed = parseFloat(star.dataset.speed);
-      angle += speed;
-      star.dataset.angle = angle;
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-      star.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${height}px, ${z}px)`;
-    });
-    requestAnimationFrame(animateStars);
-  }
-  animateStars();
-
-  // Mensajes girando alrededor de Nicole
-  const mensajes = ["Te amo 💖", "Mi universo ✨", "Mi felicidad 💕", "Mi estrella 🌟", "Mi todo 💞"];
-  const orbit = document.createElement("div");
-  orbit.className = "orbit-ring";
-  universe.appendChild(orbit);
-
-  mensajes.forEach((msg, i) => {
-    const span = document.createElement("span");
-    span.style.setProperty("--i", i);
-    span.innerText = msg;
-    orbit.appendChild(span);
+    const x = Math.cos(angle) * radius;
+    const z = Math.sin(angle) * radius;
+    star.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${height}px, ${z}px)`;
   });
-
-  let orbitAngle = 0;
-  function animateOrbit() {
-    orbitAngle += 0.01;
-    orbit.style.transform = `rotateY(${orbitAngle}rad)`;
-    requestAnimationFrame(animateOrbit);
-  }
-  animateOrbit();
-
-  // Estrellas fugaces
-  setInterval(() => {
-    let shooting = document.createElement("div");
-    shooting.className = "shooting";
-    shooting.style.top = Math.random() * 50 + "vh";
-    shooting.style.left = Math.random() * 50 + "vw";
-    document.body.appendChild(shooting);
-    setTimeout(() => shooting.remove(), 1000);
-  }, 3000);
-
-  // Movimiento táctil
-  let startX, startY, rotationX = 0, rotationY = 0;
-  document.addEventListener("touchstart", e => {
-    const touch = e.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-  });
-  document.addEventListener("touchmove", e => {
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - startX;
-    const deltaY = touch.clientY - startY;
-    rotationY += deltaX * 0.3;
-    rotationX -= deltaY * 0.3;
-    universe.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-    startX = touch.clientX;
-    startY = touch.clientY;
-  });
+  requestAnimationFrame(animateStars);
 }
+animateStars();
+
+// Movimiento táctil
+let startX, startY, rotationX = 0, rotationY = 0;
+document.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+});
+document.addEventListener("touchmove", e => {
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - startX;
+  const deltaY = touch.clientY - startY;
+  rotationY += deltaX * 0.3;
+  rotationX -= deltaY * 0.3;
+  universe.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+  startX = touch.clientX;
+  startY = touch.clientY;
+});
 </script>
 
 </body>
