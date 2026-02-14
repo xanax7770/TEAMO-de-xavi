@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Galaxia Giratoria</title>
+<title>Galaxia Ultra Realista</title>
 <style>
 html, body {
   margin: 0;
@@ -13,7 +13,7 @@ html, body {
 }
 
 #universe {
-  perspective: 1000px;
+  perspective: 1200px;
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
@@ -25,12 +25,6 @@ html, body {
   left: 50%;
   transform-style: preserve-3d;
   transform: translate(-50%, -50%);
-  animation: spinGalaxy 20s linear infinite;
-}
-
-@keyframes spinGalaxy {
-  from { transform: translate(-50%, -50%) rotateY(0deg); }
-  to { transform: translate(-50%, -50%) rotateY(360deg); }
 }
 
 .center-name {
@@ -38,10 +32,16 @@ html, body {
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  font-size: 12vw; /* escala en celular */
+  font-size: 12vw;
   color: #ff4da6;
   text-shadow: 0 0 20px #ff0066, 0 0 40px #ff4da6;
   text-align: center;
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from { text-shadow: 0 0 20px #ff0066, 0 0 40px #ff4da6; }
+  to   { text-shadow: 0 0 40px #ff0066, 0 0 80px #ff4da6; }
 }
 
 .orbit-ring {
@@ -67,10 +67,6 @@ html, body {
 .star {
   position: absolute;
   border-radius: 50%;
-  width: 2px;
-  height: 2px;
-  background: white;
-  box-shadow: 0 0 5px white;
   opacity: 0.8;
   animation: twinkle 2s infinite alternate;
 }
@@ -79,12 +75,23 @@ html, body {
   from { opacity: 0.2; }
   to   { opacity: 1; }
 }
+
+.moon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ddd;
+  box-shadow: 0 0 15px #eee;
+  transform: translate(-50%, -50%);
+}
 </style>
 </head>
 <body>
 
 <div id="universe">
-
   <div class="galaxy">
     <div class="center-name">Nicole 💖</div>
     <div class="orbit-ring">
@@ -97,55 +104,89 @@ html, body {
       <span style="--i:6">Mi razón 🌌</span>
       <span style="--i:7">Mi siempre 💞</span>
     </div>
+    <div class="moon"></div>
   </div>
-
 </div>
 
 <script>
-// Crear estrellas visibles para celular
 const universe = document.getElementById("universe");
 const colors = ["white", "#a0c4ff", "#ffb6c1", "#ffd6a5"];
-const numStars = 200; // menos estrellas para celular
+const numStars = 700; // muchas estrellas para saturar visualmente
+let stars = [];
 
+// Crear estrellas con diferentes capas de profundidad
 for (let i = 0; i < numStars; i++) {
-  let star = document.createElement("div");
+  const star = document.createElement("div");
   star.className = "star";
-  let size = Math.random() * 2 + 1;
+
+  const size = Math.random() * 2 + 1; // tamaño visible
   star.style.width = size + "px";
   star.style.height = size + "px";
   star.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-  // Posición random dentro de pantalla
-  let x = Math.random() * window.innerWidth;
-  let y = Math.random() * window.innerHeight;
-  star.style.left = x + "px";
-  star.style.top = y + "px";
+  // Capas de profundidad y movimiento
+  const angle = Math.random() * 2 * Math.PI;
+  const radius = Math.random() * 180 + 50; 
+  const height = (Math.random() - 0.5) * 120; 
+  const speed = Math.random() * 0.02 + 0.002; 
+
+  star.dataset.angle = angle;
+  star.dataset.radius = radius;
+  star.dataset.height = height;
+  star.dataset.speed = speed;
 
   universe.appendChild(star);
+  stars.push(star);
 }
 
-// Movimiento con touch para celular
-let startX, startY, currentRotationX = 0, currentRotationY = 0;
+// Animación de estrellas en espiral
+function animateStars() {
+  stars.forEach(star => {
+    let angle = parseFloat(star.dataset.angle);
+    const radius = parseFloat(star.dataset.radius);
+    const height = parseFloat(star.dataset.height);
+    const speed = parseFloat(star.dataset.speed);
+    angle += speed;
+    star.dataset.angle = angle;
 
-document.addEventListener("touchstart", function(e) {
-  let touch = e.touches[0];
+    const x = Math.cos(angle) * radius;
+    const z = Math.sin(angle) * radius;
+    star.style.transform = `translate3d(${x}px, ${height}px, ${z}px)`;
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+// Movimiento táctil
+let startX, startY, rotationX = 0, rotationY = 0;
+document.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+});
+document.addEventListener("touchmove", e => {
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - startX;
+  const deltaY = touch.clientY - startY;
+  rotationY += deltaX * 0.3;
+  rotationX -= deltaY * 0.3;
+  universe.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
   startX = touch.clientX;
   startY = touch.clientY;
 });
 
-document.addEventListener("touchmove", function(e) {
-  let touch = e.touches[0];
-  let deltaX = touch.clientX - startX;
-  let deltaY = touch.clientY - startY;
-
-  currentRotationY += deltaX * 0.2;
-  currentRotationX -= deltaY * 0.2;
-
-  universe.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-
-  startX = touch.clientX;
-  startY = touch.clientY;
-});
+// Animación de la luna
+const moon = document.querySelector(".moon");
+let moonAngle = 0;
+const moonRadius = 120;
+function animateMoon() {
+  moonAngle += 0.01;
+  const x = Math.cos(moonAngle) * moonRadius;
+  const z = Math.sin(moonAngle) * moonRadius;
+  moon.style.transform = `translate(-50%, -50%) translate3d(${x}px, 0px, ${z}px)`;
+  requestAnimationFrame(animateMoon);
+}
+animateMoon();
 </script>
 
 </body>
