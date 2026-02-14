@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Acceso Especial</title>
-<script src="https://w.soundcloud.com/player/api.js"></script>
 <style>
 body {
   margin: 0;
@@ -136,7 +135,7 @@ button {
   background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Red_Rose.svg/1024px-Red_Rose.svg.png') no-repeat center/contain;
   cursor: pointer;
   transition: transform 1s ease, box-shadow 0.5s ease;
-  z-index: 1000;
+  z-index: 1000; /* siempre visible */
   animation: roseFloat 4s ease-in-out infinite alternate;
   transform-style: preserve-3d;
 }
@@ -182,27 +181,28 @@ button {
 </div>
 
 <div id="universe">
+  <!-- Luna brillante de fondo -->
   <div class="moon"></div>
 
+  <!-- Mensaje central con emojis -->
   <div class="message">Nicole 💖✨💫<br>Te Amo 😘💌</div>
   <div class="message-sub">Eres el amor de mi vida y te amo con todo mi corazón 💕🌙💖</div>
 
+  <!-- Texto extra de amor gigante con emojis -->
   <div class="message-extra">
 Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabesh cuanto te amo y te quelo mi bebe emosha eresh lo mas importante en mi vida nunca lo olvides otei?❤️💖😍 te amo con todo mi corazón mi niña emosha pishosha tal vez esto ño sea mucho pidon 🥺 gachas por todo bebe y pidon por tan poco que tengo para darte esto al lado de otra cosa es una mrd veda pero puesh pidoname bebe 😘💝 solo queria que supieras que siempre te voy a amar con toda mi alma❤️💖💫💞
   </div>
 
+  <!-- Rosas flotantes que florecen -->
   <div class="rose" style="top:70%; left:30%; transform: translateZ(0);"></div>
   <div class="rose" style="top:75%; left:50%; transform: translateZ(0);"></div>
   <div class="rose" style="top:65%; left:65%; transform: translateZ(0);"></div>
 
-  <!-- Reproductor de SoundCloud invisible -->
-  <iframe id="music" width="0" height="0" scrolling="no" frameborder="no"
-    allow="autoplay"
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/whodoyouadore/adore-did-i-tell-u-that-i-miss-u&auto_play=false&loop=true">
-  </iframe>
+  <audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+  </audio>
 </div>
 
-<script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
 function check() {
   let pass = document.getElementById("password").value.toLowerCase();
@@ -210,14 +210,7 @@ function check() {
     document.getElementById("login").style.display = "none";
     document.getElementById("universe").style.display = "block";
     crearUniverso();
-
-    // Reproducir música después del click
-    const iframe = document.getElementById('music');
-    const widget = SC.Widget(iframe);
-    widget.bind(SC.Widget.Events.READY, function() {
-      widget.play();
-    });
-
+    document.getElementById("music").play();
   } else {
     document.getElementById("error").innerText = "Clave incorrecta 💔";
   }
@@ -250,6 +243,7 @@ document.querySelectorAll('.rose').forEach(rose => {
   rose.addEventListener('click', () => {
     rose.classList.toggle('flower');
   });
+
   rose.addEventListener('touchstart', () => {
     rose.classList.toggle('flower');
   });
