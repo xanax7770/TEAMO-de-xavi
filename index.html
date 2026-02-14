@@ -59,13 +59,20 @@ button {
   box-shadow: 0 0 10px #ffffff;
 }
 
-/* Estrellas fijas */
+/* Estrellas fijas con parpadeo aleatorio */
 .star {
   position: absolute;
   width: 2px;
   height: 2px;
   background: white;
   border-radius: 50%;
+  opacity: 0.5;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
 }
 
 /* Lluvia de estrellas */
@@ -118,7 +125,7 @@ button {
 /* Mensaje bajado */
 .message-sub {
   position: absolute;
-  top: 62%;  /* <-- Ajuste para bajarlo */
+  top: 62%;
   left: 53%;
   transform: translate(-50%, -50%);
   font-size: 35px;
@@ -293,13 +300,14 @@ function check() {
 function crearUniverso() {
   const universe = document.getElementById("universe");
 
-  // Estrellas fijas
+  // Estrellas fijas con parpadeo aleatorio
   for (let i = 0; i < 400; i++) {
     let star = document.createElement("div");
     star.className = "star";
     star.style.top = Math.random() * 100 + "vh";
     star.style.left = Math.random() * 100 + "vw";
-    star.style.transform = "translateZ(" + (Math.random() * 500) + "px)";
+    star.style.animationDuration = (1 + Math.random() * 2) + "s"; // duración aleatoria
+    star.style.animationDelay = Math.random() * 2 + "s"; // retraso aleatorio
     universe.appendChild(star);
   }
 
