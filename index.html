@@ -198,9 +198,11 @@ Gracias por todo este tiempo que me permitiste estar a tu lado enserio ño sabes
   <div class="rose" style="top:75%; left:50%; transform: translateZ(0);"></div>
   <div class="rose" style="top:65%; left:65%; transform: translateZ(0);"></div>
 
-  <audio id="music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
-  </audio>
+  <!-- Reproductor de SoundCloud para la canción -->
+  <iframe id="music" width="0" height="0" scrolling="no" frameborder="no"
+    allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/whodoyouadore/adore-did-i-tell-u-that-i-miss-u&auto_play=true&loop=true">
+  </iframe>
 </div>
 
 <script>
@@ -210,7 +212,6 @@ function check() {
     document.getElementById("login").style.display = "none";
     document.getElementById("universe").style.display = "block";
     crearUniverso();
-    document.getElementById("music").play();
   } else {
     document.getElementById("error").innerText = "Clave incorrecta 💔";
   }
